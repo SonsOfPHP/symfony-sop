@@ -13,10 +13,36 @@ abstract class WebTestCase extends BaseWebTestCase
             static::$class = static::getKernelClass();
         }
 
-        $env   = $options['environment'] ?? 'test';
-        $debug = $options['debug'] ?? true;
-        $app   = $options['name'] ?? 'app';
+        if (isset($options['environment'])) {
+            $env = $options['environment'];
+        } elseif (isset($_ENV['APP_ENV'])) {
+            $env = $_ENV['APP_ENV'];
+        } elseif (isset($_SERVER['APP_ENV'])) {
+            $env = $_SERVER['APP_ENV'];
+        } else {
+            $env = 'test';
+        }
 
-        return new static::$class($env, (bool) $debug, $app);
+        if (isset($options['debug'])) {
+            $debug = $options['debug'];
+        } elseif (isset($_ENV['APP_DEBUG'])) {
+            $debug = $_ENV['APP_DEBUG'];
+        } elseif (isset($_SERVER['APP_DEBUG'])) {
+            $debug = $_SERVER['APP_DEBUG'];
+        } else {
+            $debug = true;
+        }
+
+        if (isset($options['name'])) {
+            $name = $options['name'];
+        } elseif (isset($_ENV['APP_NAME'])) {
+            $name = $_ENV['APP_NAME'];
+        } elseif (isset($_SERVER['APP_NAME'])) {
+            $name = $_SERVER['APP_NAME'];
+        } else {
+            $name = 'app';
+        }
+
+        return new static::$class($env, (bool) $debug, $name);
     }
 }
