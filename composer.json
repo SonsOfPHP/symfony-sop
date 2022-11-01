@@ -57,13 +57,22 @@
         "sort-packages": true
     },
     "autoload": {
+        "classmap": [
+            "src/Kernel.php"
+        ],
         "psr-4": {
-            "App\\": "src/"
+            "Admin\\": "src/Admin/",
+            "Api\\": "src/Api/",
+            "App\\": "src/App/",
+            "Shared\\": "src/Shared/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Admin\\Tests\\": "tests/Admin/",
+            "Api\\Tests\\": "tests/Api/",
+            "App\\Tests\\": "tests/App/",
+            "Shared\\Tests\\": "tests/Shared/"
         }
     },
     "replace": {
