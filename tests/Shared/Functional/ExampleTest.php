@@ -14,7 +14,7 @@ final class ExampleTest extends WebTestCase
             'name' => 'app',
         ]);
         $client->request('GET', '/');
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseIsSuccessful();
     }
 
     public function testApi(): void
