@@ -8,6 +8,8 @@ has a few awesome features like:
   makes it easier to have "api", "admin", and "app" in the same code base.
 - Docker files included so you don't need to add anything else
 - Sons of PHP bundles and libraries are pre-installed and configured
+- Includes example "Makefile" loaded with various helpful targets for you to
+  use. To see what can be done, just run "make" to see the help screen.
 
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.
