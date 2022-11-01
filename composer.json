@@ -68,6 +68,9 @@
         }
     },
     "autoload-dev": {
+        "classmap": [
+            "tests/WebTestCase.php"
+        ],
         "psr-4": {
             "Admin\\Tests\\": "tests/Admin/",
             "Api\\Tests\\": "tests/Api/",

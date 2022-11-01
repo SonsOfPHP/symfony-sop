@@ -24,6 +24,10 @@ class Kernel extends BaseKernel
     {
         $this->name = $name;
 
+        if ('shared' === $this->getName()) {
+            throw new \InvalidArgumentException(sprintf('App Name "%s" is invalid.', $name));
+        }
+
         parent::__construct($environment, $debug);
     }
 
