@@ -1,3 +1,9 @@
+// Because there are multiple applications within the codebase, you may want
+// (or need to) split those up. For example, the "app" and "admin" applications
+// have different JS/CSS requirements.
+//
+// @see https://symfony.com/doc/current/frontend/encore/advanced-config.html#defining-multiple-webpack-configurations
+
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -6,11 +12,14 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
+// =============================================================================
+// "app" Application
+// =============================================================================
 Encore
     // directory where compiled assets will be stored
-    .setOutputPath('public/build/')
+    .setOutputPath('public/build/app/')
     // public path used by the web server to access the output path
-    .setPublicPath('/build')
+    .setPublicPath('/build/app')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
 
@@ -72,5 +81,33 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
 ;
+const appConfig = Encore.getWebpackConfig();
+appConfig.name = 'app';
+Encore.reset();
+// =============================================================================
 
-module.exports = Encore.getWebpackConfig();
+// =============================================================================
+// "admin" Application
+// =============================================================================
+Encore
+    .setOutputPath('public/build/admin/')
+    .setPublicPath('/build/admin')
+    .addEntry('app', './assets/app.js')
+    .enableStimulusBridge('./assets/controllers.json')
+    .splitEntryChunks()
+    .enableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableBuildNotifications()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = '3.23';
+    })
+;
+const adminConfig = Encore.getWebpackConfig();
+adminConfig.name = 'admin';
+Encore.reset();
+// =============================================================================
+
+module.exports = [appConfig, adminConfig];
