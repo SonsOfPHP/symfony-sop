@@ -1,5 +1,4 @@
 composer.lock
-symfony.lock
 tools/
 
 ###> symfony/framework-bundle ###
