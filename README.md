@@ -38,6 +38,9 @@ app you want to setup. An example of this would be for "app" you want to load
 users from the database. However for the "admin" app, you want to load users
 from a LDAP server.
 
+To change everything, just use your ".env" file and change "APP_NAME" to
+whatever app you want to use.
+
 ## Adding/Removing Apps in the codebase
 
 Take a look at the `composer.json` file. You will is in the "autoload" and
