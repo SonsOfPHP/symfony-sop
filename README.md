@@ -14,6 +14,11 @@ has a few awesome features like:
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.
 
+## Setting it up
+
+Just run `make install` to get started. This installs all the dependencies along
+with the tools that are used.
+
 ## Apps
 
 When you build an app, you will generally have a section for your users to login
