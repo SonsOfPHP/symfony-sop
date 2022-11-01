@@ -54,3 +54,10 @@ modified.
 This template comes with it's own "WebTestCase" that you need to extend in order
 for everything to work properly. You can see in the "ExampleTest" how to load
 different configurations to test.
+
+## Getting Help
+
+If you need help or have questions, please look at the following:
+
+* https://github.com/orgs/SonsOfPHP/discussions
+* https://discord.gg/sdVxNhFqND
