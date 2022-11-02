@@ -16,6 +16,7 @@ services:
     Shared\:
         resource: '../src/Shared'
         exclude:
+            - '../src/Shared/Infrastructure/Doctrine/Entity/'
             - '../src/Shared/Infrastructure/Symfony/DependencyInjection/'
             - '../src/Shared/Infrastructure/Symfony/Entity/'
 
