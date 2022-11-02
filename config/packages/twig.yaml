@@ -1,8 +1,21 @@
 twig:
     default_path: '%kernel.project_dir%/templates/%kernel.name%'
     paths:
+        # Pick one way and stick with it, with a name, you can include templates
+        # like "@shared/google_analytics.html.twig" there are pros/cons to each
         '%kernel.project_dir%/templates/shared': ~
+        #'%kernel.project_dir%/templates/shared': 'shared'
+
+    # You can set some globals like this and config them to have a different value
+    # in production
+    #globals:
+    #    google_analytics_enabled: false
 
 when@test:
     twig:
         strict_variables: true
+
+#when@prod:
+#    twig:
+#      globals:
+#          google_analytics_enabled: true
