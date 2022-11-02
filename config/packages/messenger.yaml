@@ -2,23 +2,94 @@ framework:
     messenger:
         failure_transport: failed
 
+        ####
+        # Uncomment to use json instead of php's serialize functions
+        ###
+        #serializer:
+        #    default_serializer: messenger.transport.symfony_serializer
+        #    symfony_serializer:
+        #        format: json
+        #        context: { }
+
+        ####
+        # Uncomment to use multiple buses
+        ###
+        #default_bus: command.bus
+        #buses:
+        #    command.bus: ~
+        #    query.bus: ~
+        #    event.bus:
+        #        default_middleware: allow_no_handlers
+
         transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async:
+            ######## Synchronous Transport #####################################
+            sync: 'sync://'
+            ####################################################################
+
+            ######## Prioritize Asynchronous Transports ########################
+            urgent:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: 'doctrine://default'
                 options:
-                    use_notify: true
-                    check_delayed_interval: 60000
-                retry_strategy:
-                    max_retries: 3
-                    multiplier: 2
+                    queue_name: urgent
+            high:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: 'doctrine://default'
+                options:
+                    queue_name: high
+            medium:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: 'doctrine://default'
+                options:
+                    queue_name: medium
+            low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: 'doctrine://default'
+                options:
+                    queue_name: low
+            ####################################################################
+            #async:
+            #    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            #    options:
+            #        use_notify: true
+            #        check_delayed_interval: 60000
+            #    retry_strategy:
+            #        max_retries: 3
+            #        multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
         routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
-            Symfony\Component\Notifier\Message\SmsMessage: async
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: urgent
+            Symfony\Component\Notifier\Message\ChatMessage: urgent
+            Symfony\Component\Notifier\Message\SmsMessage: urgent
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
+
+# in the dev env it can be useful to have all the messages be handled sync or
+# only some of the messages can be handled sync and some can continue to be
+# handled async
+#when@dev:
+#    framework:
+#        messenger:
+#            transports:
+#                urgent: 'sync://'
+#                high: 'sync://'
+#                medium: 'sync://'
+#                low: 'sync://'
+#          routing:
+#              Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
+#              Symfony\Component\Notifier\Message\ChatMessage: sync
+#              Symfony\Component\Notifier\Message\SmsMessage: sync
+
+# When testing, all messages that were handle async will be sent into the black
+# hole and never processed. Also good to help speed up testing
+#when@test:
+#    framework:
+#        messenger:
+#            transports:
+#                urgent: 'in-memory://'
+#                high: 'in-memory://'
+#                medium: 'in-memory://'
+#                low: 'in-memory://'
