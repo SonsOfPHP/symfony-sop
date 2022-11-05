@@ -1,0 +1,111 @@
+name: PHPUnit Tests
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - '.github/workflows/phpunit.yml'
+            - 'etc/**'
+            - 'src/**'
+            - 'tests/**'
+            - 'composer.json'
+            - 'composer.lock'
+            - 'phpunit.xml.dist'
+    pull_request:
+        branches:
+            - main
+        paths:
+            - '.github/workflows/phpunit.yml'
+            - 'etc/**'
+            - 'src/**'
+            - 'tests/**'
+            - 'composer.json'
+            - 'composer.lock'
+            - 'phpunit.xml.dist'
+
+env:
+    APP_ENV: test
+    APP_DEBUG: false
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+jobs:
+    unit-tests:
+        #name: Unit Tests for App ${{ matrix.app-name }} with PHP ${{ matrix.php-version }}
+        name: Unit Tests with PHP ${{ matrix.php-version }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version: ['8.1']
+                #app-name: ['app']
+        steps:
+            - uses: actions/checkout@v3
+
+            # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+            # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '${{ matrix.php-version }}'
+                  coverage: none
+
+            - name: Cache Composer Packages
+              id: composer-cache
+              uses: actions/cache@v3
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                    ${{ runner.os }}-php-
+
+            - run: make composer-install
+            - run: make test-unit
+
+    functional-tests:
+        #name: Functional Tests for App ${{ matrix.app-name }} with PHP ${{ matrix.php-version }}
+        name: Functional Tests with PHP ${{ matrix.php-version }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version: ['8.1']
+                #app-name: ['app']
+        services:
+            postgres:
+                image: postgres:13-alpine
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_PASSWORD: 'password123'
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-node@v3
+              with:
+                  cache: yarn
+
+            # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+            # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '${{ matrix.php-version }}'
+                  coverage: none
+
+            - name: Cache Composer Packages
+              id: composer-cache
+              uses: actions/cache@v3
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                    ${{ runner.os }}-php-
+
+            - run: make install assets
+            - run: make test-functional
+              env:
+                  DATABASE_URL: 'postgresql://postgres:password123@localhost:5432/app?serverVersion=13&charset=utf8'

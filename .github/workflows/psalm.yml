@@ -1,0 +1,58 @@
+name: Psalm
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - '.github/workflows/psalm.yml'
+            - 'src/**'
+            - 'tests/**'
+            - 'phpstan.neon.dist'
+            - 'psalm.xml'
+    pull_request:
+        branches:
+            - main
+        paths:
+            - '.github/workflows/psalm.yml'
+            - 'src/**'
+            - 'tests/**'
+            - 'phpstan.neon.dist'
+            - 'psalm.xml'
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+
+jobs:
+    psalm:
+        name: Psalm with PHP ${{ matrix.php-version }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version: ['8.1']
+        steps:
+            - uses: actions/checkout@v3
+
+            # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+            # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '${{ matrix.php-version }}'
+                  coverage: none
+
+            - name: Cache Composer Packages
+              id: composer-cache
+              uses: actions/cache@v3
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                    ${{ runner.os }}-php-
+
+            - run: make composer-install psalm-install
+            - run: make psalm-github

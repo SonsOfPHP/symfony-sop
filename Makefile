@@ -71,18 +71,20 @@ coverage: ## Generate Code Coverage
 	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=coverage $(PHP) -dxdebug.mode=coverage $(PHPUNIT) --testsuite "all" --coverage-html $(COVERAGE_DIR)
 
 ## ---- Tools ---------------------------------------------------------------------
-tools-install: ## Install Tools
-	mkdir -vp ${PSALM_DIR}
+tools-install: psalm-install ## Install Tools
 	mkdir -vp ${PHP_CS_FIXER_DIR}
-	$(COMPOSER) require --working-dir=${PSALM_DIR} "vimeo/psalm" "psalm/plugin-phpunit" "psalm/plugin-symfony" --no-interaction --prefer-dist --optimize-autoloader
-	$(PSALM_PLUGIN) enable psalm/plugin-phpunit || true
-	$(PSALM_PLUGIN) enable psalm/plugin-symfony || true
-	$(PSALM) --init
 	$(COMPOSER) require --working-dir=${PHP_CS_FIXER_DIR} "friendsofphp/php-cs-fixer" --no-interaction --prefer-dist --optimize-autoloader
 
 tools-upgrade: ## Upgrade Tools
 	$(COMPOSER) upgrade --working-dir=${PSALM_DIR} --no-interaction --prefer-dist --optimize-autoloader --with-all-dependencies
 	$(COMPOSER) upgrade --working-dir=${PHP_CS_FIXER_DIR} --no-interaction --prefer-dist --optimize-autoloader --with-all-dependencies
+
+psalm-install:
+	mkdir -vp ${PSALM_DIR}
+	$(COMPOSER) require --working-dir=${PSALM_DIR} "vimeo/psalm" "psalm/plugin-phpunit" "psalm/plugin-symfony" --no-interaction --prefer-dist --optimize-autoloader
+	$(PSALM_PLUGIN) enable psalm/plugin-phpunit || true
+	$(PSALM_PLUGIN) enable psalm/plugin-symfony || true
+	$(PSALM) --init
 
 psalm: ## Run psalm
 	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PSALM)
