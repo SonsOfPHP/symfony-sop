@@ -71,7 +71,7 @@ test-functional: ## Run functional tests ONLY for all apps
 	$(SYMFONY) doctrine:database:drop --env=test -vvv -n --if-exists --force
 	$(SYMFONY) doctrine:database:create --env=test -vvv -n --if-not-exists
 	$(SYMFONY) doctrine:schema:create --env=test -vvv -n
-	$(SYMFONY) doctrine:fixtures:load --env=test -vvv -n
+	$(SYMFONY) doctrine:fixtures:load --env=test -vvv -n || true
 	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHPUNIT) --testsuite "functional"
 ## ---- Documentation -------------------------------------------------------------
 coverage: ## Generate Code Coverage
