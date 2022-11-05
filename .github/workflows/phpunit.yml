@@ -106,6 +106,6 @@ jobs:
                     ${{ runner.os }}-php-
 
             - run: make composer-install
-            - run: test-functional
+            - run: make test-functional
               env:
                   DATABASE_URL: 'postgresql://postgres:password123@localhost:5432/app?serverVersion=13&charset=utf8'
