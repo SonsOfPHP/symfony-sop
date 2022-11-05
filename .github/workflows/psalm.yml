@@ -19,18 +19,18 @@ on:
             - 'phpstan.neon.dist'
             - 'psalm.xml'
 
-permissions:
-    contents: read
-
 concurrency:
     group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
     cancel-in-progress: true
-
 
 jobs:
     psalm:
         name: Psalm with PHP ${{ matrix.php-version }}
         runs-on: ubuntu-latest
+        permissions:
+            security-events: write
+            actions: read
+            contents: read
         strategy:
             fail-fast: false
             matrix:
