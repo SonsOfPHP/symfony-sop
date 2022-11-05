@@ -90,7 +90,7 @@ psalm: ## Run psalm
 	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PSALM)
 
 psalm-github: ## Run psalm with GitHub output
-	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PSALM) --long-process --monochrome --output-format=github
+	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PSALM) --long-progress --monochrome --output-format=github
 
 php-cs-fixer: ## Run php-cs-fixer
 	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHP_CS_FIXER) fix -vv --diff --allow-risky=yes --config=.php-cs-fixer.dist.php
