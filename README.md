@@ -13,6 +13,7 @@ has a few awesome features like:
 - Includes [DAMADoctrineTestBundle](https://github.com/dmaicher/doctrine-test-bundle) pre-configured
 - Includes GitHub actions for unit/functional tests using PHPUnit and static code analysis
   using psalm
+- Includes `dependabot.yml` file
 
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.
