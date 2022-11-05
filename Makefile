@@ -61,8 +61,7 @@ yarn-upgrade: ## Upgrade yarn packages
 	$(YARN) upgrade
 
 ## ---- Testing -------------------------------------------------------------------
-test: ## Run all tests for all apps
-	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHPUNIT) --testsuite "all"
+test: test-unit test-functional ## Run all tests for all apps
 
 test-unit: ## Run unit tests ONLY for all apps
 	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHPUNIT) --testsuite "unit"
