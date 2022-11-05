@@ -25,6 +25,9 @@ SYMFONY_DEPRECATIONS_HELPER='max[total]=99999&quiet[]=indirect&quiet[]=other'
 help:
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
+diagnostic: # Output various help info
+	$(SYMFONY) about
+
 ## ---- Project -------------------------------------------------------------------
 install: composer-install yarn-install tools-install ## Install Dependencies
 
@@ -65,6 +68,10 @@ test-unit: ## Run unit tests ONLY for all apps
 	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHPUNIT) --testsuite "unit"
 
 test-functional: ## Run functional tests ONLY for all apps
+	$(SYMFONY) doctrine:database:drop --env=test -vvv -n --if-exists --force
+	$(SYMFONY) doctrine:database:create --env=test -vvv -n --if-not-exists
+	$(SYMFONY) doctrine:schema:create --env=test -vvv -n
+	$(SYMFONY) doctrine:fixtures:load --env=test -vvv -n
 	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(PHPUNIT) --testsuite "functional"
 ## ---- Documentation -------------------------------------------------------------
 coverage: ## Generate Code Coverage

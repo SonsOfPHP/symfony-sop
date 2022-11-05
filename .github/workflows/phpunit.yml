@@ -64,6 +64,7 @@ jobs:
                     ${{ runner.os }}-php-
 
             - run: make composer-install
+            - run: make diagnostic
             - run: make test-unit
 
     functional-tests:
@@ -106,6 +107,7 @@ jobs:
                     ${{ runner.os }}-php-
 
             - run: make composer-install
+            - run: make diagnostic
             - run: make test-functional
               env:
                   DATABASE_URL: 'postgresql://postgres:password123@localhost:5432/app?serverVersion=13&charset=utf8'
