@@ -10,6 +10,9 @@ has a few awesome features like:
 - Sons of PHP bundles and libraries are pre-installed and configured
 - Includes example "Makefile" loaded with various helpful targets for you to
   use. To see what can be done, just run "make" to see the help screen.
+- Includes [DAMADoctrineTestBundle](https://github.com/dmaicher/doctrine-test-bundle) pre-configured
+- Includes GitHub actions for unit/functional tests using PHPUnit and static code analysis
+  using psalm
 
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.

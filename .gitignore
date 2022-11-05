@@ -1,5 +1,5 @@
-composer.lock
 tools/
+results.sarif
 
 ###> symfony/framework-bundle ###
 /.env.local
