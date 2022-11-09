@@ -11,6 +11,24 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    _instanceof:
+        # These allow you to use the CQRS/Event Sourcing Components.
+        # https://docs.sonsofphp.com
+        SonsOfPHP\Component\Cqrs\Command\CommandMessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+        SonsOfPHP\Component\Cqrs\Query\QueryMessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+        SonsOfPHP\Component\EventSourcing\Message\MessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+
+    # Uncomment this if you are using bootstrap and the notifier component for
+    # flash messages
+    #notifier.flash_message_importance_mapper:
+    #    class: Symfony\Component\Notifier\FlashMessage\BootstrapFlashMessageImportanceMapper
+
     # This allows all the DataFixtures to be kept outside of the rest of the code
     # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
     DataFixtures\:
@@ -19,9 +37,35 @@ services:
     Shared\:
         resource: '../src/Shared'
         exclude:
+            # You can keep the Symfony structure for you project or use more of
+            # a "Application", "Domain", "Infrastructure" layout. This is all up
+            # to you to figure out what you want
+            #- '../src/Shared/DependencyInjection/'
+            #- '../src/Shared/Entity/'
             - '../src/Shared/Infrastructure/Doctrine/Entity/'
             - '../src/Shared/Infrastructure/Symfony/DependencyInjection/'
-            - '../src/Shared/Infrastructure/Symfony/Entity/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # Inject the different Message Buses into your services to make it
+    # east to dispatch/handle commands, queries, and events
+    # https://docs.sonsofphp.com
+    SonsOfPHP\Bridge\Symfony\Cqrs\CommandMessageBus:
+        arguments: ['@command.bus']
+    SonsOfPHP\Bridge\Symfony\Cqrs\QueryMessageBus:
+        arguments: ['@query.bus']
+    SonsOfPHP\Bridge\Symfony\EventSourcing\EventMessageBus:
+        arguments: ['@event.bus']
+
+    # Makes sure that messages are serialized correctly
+    # https://docs.sonsofphp.com
+    SonsOfPHP\Bridge\Symfony\EventSourcing\AggregateIdNormalizer:
+        tags: [ serializer.normalizer ]
+    SonsOfPHP\Bridge\Symfony\EventSourcing\AggregateVersionNormalizer:
+        tags: [ serializer.normalizer ]
+    SonsOfPHP\Bridge\Symfony\EventSourcing\MessageNormalizer:
+        tags: [ serializer.normalizer ]
+
+    # Uncomment to enable commands to generate/inspect UUIDs and ULIDs
+    #Symfony\Component\Uid\Command\GenerateUlidCommand: ~
+    #Symfony\Component\Uid\Command\InspectUlidCommand: ~
+    #Symfony\Component\Uid\Command\GenerateUuidCommand: ~
+    #Symfony\Component\Uid\Command\InspectUuidCommand: ~
