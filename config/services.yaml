@@ -13,7 +13,7 @@ services:
 
     # This allows all the DataFixtures to be kept outside of the rest of the code
     # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
-    DataFixtures:
+    DataFixtures\:
         resource: '../fixtures'
 
     Shared\:

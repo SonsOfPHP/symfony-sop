@@ -1,7 +1,7 @@
 Symfony (Sons of PHP Edition)
 =============================
 
-This is a modified version of Symfony LTS. It is used to setup new projects and
+This is a modified version of Symfony. It is used to setup new projects and
 has a few awesome features like:
 
 - Supports "APP_NAME" so that multiple apps can use the same code base. This
@@ -14,6 +14,7 @@ has a few awesome features like:
 - Includes GitHub actions for unit/functional tests using PHPUnit and static code analysis
   using psalm
 - Includes `dependabot.yml` file
+- Multiple Buses have been preconfigured for you
 
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.

@@ -2,62 +2,115 @@ framework:
     messenger:
         failure_transport: failed
 
-        ####
-        # Uncomment to use json instead of php's serialize functions
-        ###
-        #serializer:
-        #    default_serializer: messenger.transport.symfony_serializer
-        #    symfony_serializer:
-        #        format: json
-        #        context: { }
+        # This will make sure that all messages are serialized into a JSON
+        # format instead of using PHPs native serialize functions
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
+                context: { }
 
-        ####
-        # Uncomment to use multiple buses
-        ###
-        #default_bus: command.bus
-        #buses:
-        #    command.bus: ~
-        #    query.bus: ~
-        #    event.bus:
-        #        default_middleware: allow_no_handlers
+        # https://symfony.com/doc/current/messenger/multiple_buses.html
+        default_bus: command.bus
+        buses:
+            command.bus:
+                middleware:
+                    # https://symfony.com/doc/current/messenger/dispatch_after_current_bus.html
+                    - dispatch_after_current_bus
+
+                    # Add the router_context middleware if you need to generate
+                    # absolute URLs in the consumer (e.g. render a template
+                    # with links). This middleware stores the original request
+                    # context (i.e. the host, the HTTP port, etc.) which is
+                    # needed when building absolute URLs.
+                    #- router_context
+
+                    # You should be validating the data before dispatching, but
+                    # if you want to use the validator component, this is how
+                    #- validation
+
+                    # each time a message is handled, the Doctrine connection
+                    # is "pinged" and reconnected if it's closed. Useful if
+                    # your workers run for a long time and the database
+                    # connection is sometimes lost
+                    #- doctrine_ping_connection
+
+                    # After handling, the Doctrine connection is closed, which
+                    # can free up database connections in a worker, instead of
+                    # keeping them open forever
+                    #- doctrine_close_connection
+
+                    # wraps all handlers in a single Doctrine transaction
+                    # handlers do not need to call flush() and an error in any
+                    # handler will cause a rollback
+                    - doctrine_transaction
+            query.bus:
+                middleware:
+                    #- validation
+            event.bus:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - dispatch_after_current_bus
+                    - doctrine_transaction
 
         transports:
+            failed: 'doctrine://default?queue_name=failed'
+
             ######## Synchronous Transport #####################################
+            # This comes in handy during testing. You can route messages to
+            # this transport and during testing, this can be sent to
+            # "in-memory" to speed up tests or to make sure it does not call 3p
+            # apis or services.
             sync: 'sync://'
             ####################################################################
 
             ######## Prioritize Asynchronous Transports ########################
+            # When consuming messages, you need to run:
+            #   php bin/console messenger:consume urgent high medium low
+            # so that messages will be consumed in the correct order.
+            #
+            # You can change the retry strategy for each priority based on your
+            # own SLAs and needs
+            #
+            # NOTE: The "options" are specific to the transport DSN you are using,
+            #       make updates based on what you are using.
             urgent:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: '%env(MESSENGER_URGENT_TRANSPORT_DSN)%'
                 #dsn: 'doctrine://default'
                 options:
                     queue_name: urgent
+                #retry_strategy:
+                #    max_retries: 3
+                #    multiplier: 2
             high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: '%env(MESSENGER_HIGH_TRANSPORT_DSN)%'
                 #dsn: 'doctrine://default'
                 options:
                     queue_name: high
+                #retry_strategy:
+                #    max_retries: 3
+                #    multiplier: 2
             medium:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: '%env(MESSENGER_MEDIUM_TRANSPORT_DSN)%'
                 #dsn: 'doctrine://default'
                 options:
                     queue_name: medium
+                #retry_strategy:
+                #    max_retries: 3
+                #    multiplier: 2
             low:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                #dsn: '%env(MESSENGER_LOW_TRANSPORT_DSN)%'
                 #dsn: 'doctrine://default'
                 options:
                     queue_name: low
+                #retry_strategy:
+                #    max_retries: 3
+                #    multiplier: 2
             ####################################################################
-            #async:
-            #    dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-            #    options:
-            #        use_notify: true
-            #        check_delayed_interval: 60000
-            #    retry_strategy:
-            #        max_retries: 3
-            #        multiplier: 2
-            failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
 
         routing:
             Symfony\Component\Mailer\Messenger\SendEmailMessage: urgent
@@ -65,31 +118,28 @@ framework:
             Symfony\Component\Notifier\Message\SmsMessage: urgent
 
             # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            # 'App\Message\YourMessage': low
 
 # in the dev env it can be useful to have all the messages be handled sync or
 # only some of the messages can be handled sync and some can continue to be
 # handled async
-#when@dev:
-#    framework:
-#        messenger:
-#            transports:
-#                urgent: 'sync://'
-#                high: 'sync://'
-#                medium: 'sync://'
-#                low: 'sync://'
-#          routing:
-#              Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
-#              Symfony\Component\Notifier\Message\ChatMessage: sync
-#              Symfony\Component\Notifier\Message\SmsMessage: sync
+when@dev:
+    framework:
+        messenger:
+            transports:
+                urgent: 'sync://'
+                high: 'sync://'
+                medium: 'sync://'
+                low: 'sync://'
 
 # When testing, all messages that were handle async will be sent into the black
 # hole and never processed. Also good to help speed up testing
-#when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                urgent: 'in-memory://'
-#                high: 'in-memory://'
-#                medium: 'in-memory://'
-#                low: 'in-memory://'
+when@test:
+    framework:
+        messenger:
+            transports:
+                sync: 'in-memory://'
+                urgent: 'in-memory://'
+                high: 'in-memory://'
+                medium: 'in-memory://'
+                low: 'in-memory://'
