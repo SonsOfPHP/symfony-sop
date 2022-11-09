@@ -29,11 +29,6 @@ services:
     #notifier.flash_message_importance_mapper:
     #    class: Symfony\Component\Notifier\FlashMessage\BootstrapFlashMessageImportanceMapper
 
-    # This allows all the DataFixtures to be kept outside of the rest of the code
-    # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
-    DataFixtures\:
-        resource: '../fixtures'
-
     Shared\:
         resource: '../src/Shared'
         exclude:
@@ -69,3 +64,10 @@ services:
     #Symfony\Component\Uid\Command\InspectUlidCommand: ~
     #Symfony\Component\Uid\Command\GenerateUuidCommand: ~
     #Symfony\Component\Uid\Command\InspectUuidCommand: ~
+
+when@dev:
+    services:
+        # This allows all the DataFixtures to be kept outside of the rest of the code
+        # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
+        DataFixtures\:
+            resource: '../fixtures'
