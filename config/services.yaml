@@ -11,8 +11,11 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    # This allows all the DataFixtures to be kept outside of the rest of the code
+    # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
+    DataFixtures:
+        resource: '../fixtures'
+
     Shared\:
         resource: '../src/Shared'
         exclude:

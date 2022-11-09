@@ -73,6 +73,7 @@
             "tests/WebTestCase.php"
         ],
         "psr-4": {
+            "DataFixtures\\": "fixtures/",
             "Admin\\Tests\\": "tests/Admin/",
             "Api\\Tests\\": "tests/Api/",
             "App\\Tests\\": "tests/App/",
