@@ -71,3 +71,8 @@ when@dev:
         # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
         DataFixtures\:
             resource: '../fixtures'
+
+when@test:
+    services:
+        DataFixtures\:
+            resource: '../fixtures'
