@@ -48,6 +48,8 @@ start: up ## spin up docker containers and symfony server
 stop: down ## spin down docker containers and symfony server
 	$(SYMFONY) server:stop
 
+upgrade: composer-upgrade yarn-upgrade tools-upgrade ## Upgrade dependencies
+
 ## ---- Docker --------------------------------------------------------------------
 up: ## Start the docker hub in detached mode (no logs)
 	$(DOCKER_COMPOSE) up --detach --remove-orphans
