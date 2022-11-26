@@ -30,7 +30,7 @@ diagnostic: # Output various help info
 	$(CONSOLE) about
 
 ## ---- Project -------------------------------------------------------------------
-install: composer-install yarn-install tools-install ## Install Dependencies
+install: composer-install yarn-install tools-install assets ## Install Dependencies & make assets
 
 assets: ## Compile assets (dev)
 	$(YARN) run encore dev
