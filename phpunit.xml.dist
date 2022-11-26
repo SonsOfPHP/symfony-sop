@@ -37,10 +37,6 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
-        <exclude>
-            <directory>src/*/Infrastructure/Symfony/DataFixtures</directory>
-            <file>src/Kernel.php</file>
-        </exclude>
     </coverage>
 
     <listeners>

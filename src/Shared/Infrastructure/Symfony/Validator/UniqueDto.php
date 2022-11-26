@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // @see https://github.com/symfony/symfony/issues/22592
 
 namespace Shared\Infrastructure\Symfony\Validator;

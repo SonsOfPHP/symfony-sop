@@ -94,7 +94,7 @@ class Kernel extends BaseKernel
     /**
      * {@inheritdoc}
      */
-    protected function build(ContainerBuilder $container)
+    protected function build(ContainerBuilder $container): void
     {
         $container->fileExists($this->getBundlesPath());
         $container->fileExists($this->getAppNameBundlesPath());
