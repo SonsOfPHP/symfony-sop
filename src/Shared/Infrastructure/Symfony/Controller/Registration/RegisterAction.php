@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shared\Infrastructure\Symfony\Controller;
+namespace Shared\Infrastructure\Symfony\Controller\Registration;
 
 use Shared\Application\Command\RegisterUser;
 use Shared\Infrastructure\Doctrine\Entity\User;
@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/register', name: 'shared_register')]
-final class RegisterController extends AbstractController
+final class RegisterAction extends AbstractController
 {
     public function __construct(
         private CommandMessageBus $commandBus,
