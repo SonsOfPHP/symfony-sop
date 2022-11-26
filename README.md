@@ -15,15 +15,20 @@ has a few awesome features like:
   using psalm
 - Includes `dependabot.yml` file
 - Multiple Buses have been preconfigured for you
+- Bootstrap CSS is preconfigured along with a few templates to get you started
 - Ready to go with user & account registration and user login
-
-This template also comes some some example directory structures, but you are
-free to change them or use them however you'd like.
 
 ## Setting it up
 
-Just run `make install` to get started. This installs all the dependencies along
-with the tools that are used.
+Just run `make install` to get started. This installs all the dependencies
+(uses `composer` and `yarn`), installs various tools (`php-cs-fixer`, `psalm`,
+etc.), and will build assets.
+
+Once all the dependencies are installed, you can run `make start` to spin up the
+Symfony server along with the docker containers.
+
+To see a list of all the targets and descriptions, just run `make`. There are a
+lot of different targets to help you manage your project.
 
 ## Apps
 
