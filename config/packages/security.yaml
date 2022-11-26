@@ -18,9 +18,8 @@ security:
         main:
             lazy: true
             provider: shared_user_provider
-            #logout:
-            #  path: shared_logout
-
+            logout:
+              path: shared_logout
             form_login:
               login_path: shared_login
               check_path: shared_login
