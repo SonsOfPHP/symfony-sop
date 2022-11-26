@@ -23,5 +23,6 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <button type="submit" class="btn btn-primary">{{ 'btn.login'|trans }}</button>
+    <a href="{{ path('shared_register') }}" class="btn btn-secondary ms-3">{{ 'btn.register'|trans }}</a>
   </form>
 {% endblock %}

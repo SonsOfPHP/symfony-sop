@@ -7,5 +7,6 @@
     {{ form_row(form.email) }}
     {{ form_row(form.password) }}
     <button type="submit" class="btn btn-primary" id="register-btn">{{ 'btn.register'|trans }}</button>
+    <a href="{{ path('shared_login') }}" class="btn btn-secondary ms-3">{{ 'btn.login'|trans }}</a>
   {{ form_end(form) }}
 {% endblock %}

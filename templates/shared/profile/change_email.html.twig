@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'Change Email'|trans }}{% endblock %}
+
+{% block content %}
+  {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    <button type="submit" class="btn btn-primary" id="submit-btn">{{ 'Update Email'|trans }}</button>
+  {{ form_end(form) }}
+{% endblock %}
