@@ -14,7 +14,7 @@ final class ExampleTest extends WebTestCase
             'name' => 'app',
         ]);
         $client->request('GET', '/');
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects();
     }
 
     public function testApi(): void
