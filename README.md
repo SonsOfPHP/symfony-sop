@@ -17,6 +17,7 @@ has a few awesome features like:
 - Multiple Buses have been preconfigured for you
 - Bootstrap CSS is preconfigured along with a few templates to get you started
 - Ready to go with user & account registration and user login
+- Comes with a `UniqueDto` Symfony Constraint
 
 ## Setting it up
 
