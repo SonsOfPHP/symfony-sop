@@ -15,6 +15,7 @@ has a few awesome features like:
   using psalm
 - Includes `dependabot.yml` file
 - Multiple Buses have been preconfigured for you
+- Ready to go with user & account registration and user login
 
 This template also comes some some example directory structures, but you are
 free to change them or use them however you'd like.

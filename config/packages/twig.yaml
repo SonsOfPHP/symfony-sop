@@ -1,4 +1,7 @@
 twig:
+    form_themes:
+      - 'bootstrap_5_layout.html.twig'
+
     default_path: '%kernel.project_dir%/templates/%kernel.name%'
     paths:
         # Pick one way and stick with it, with a name, you can include templates
