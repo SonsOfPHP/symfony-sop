@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="btn.login">
+                <source>btn.login</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="btn.register">
+                <source>btn.register</source>
+                <target>Register</target>
+            </trans-unit>
+
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Password</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -30,16 +30,22 @@ diagnostic: # Output various help info
 	$(CONSOLE) about
 
 ## ---- Project -------------------------------------------------------------------
-install: composer-install yarn-install tools-install ## Install Dependencies
+install: composer-install yarn-install tools-install assets ## Install Dependencies & make assets
 
 assets: ## Compile assets (dev)
 	$(YARN) run encore dev
 
 db-migrate: ## Run database migrations
-	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(CONSOLE) doctrine:migrations:migrate --no-interaction --allow-no-migration
+	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(CONSOLE) doctrine:migrations:migrate --no-interaction --allow-no-migration -vvv
 
 db-fixtures-load: ## Load Database Fixtures
 	XDEBUG_MODE=off $(PHP) -dxdebug.mode=off $(CONSOLE) doctrine:fixtures:load --no-interaction
+
+db-diff: ## Generate DB Migration
+	$(CONSOLE) doctrine:migrations:diff --no-interaction -vvv
+
+db-diff-dump: ## View database diff
+	$(CONSOLE) doctrine:schema:update --dump-sql --no-interaction -vvv
 
 start: up ## spin up docker containers and symfony server
 	$(SYMFONY) server:ca:install --renew --force

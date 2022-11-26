@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ 'register'|trans }}{% endblock %}
+
+{% block content %}
+  {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    <button type="submit" class="btn btn-primary" id="register-btn">{{ 'btn.register'|trans }}</button>
+  {{ form_end(form) }}
+{% endblock %}
