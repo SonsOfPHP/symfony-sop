@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Shared\Tests\Functional;
 
-use WebTestCase;
-
-final class ExampleTest extends WebTestCase
+final class ExampleTest extends \WebTestCase
 {
     public function testApp(): void
     {
