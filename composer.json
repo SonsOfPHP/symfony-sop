@@ -73,6 +73,7 @@
     },
     "autoload-dev": {
         "classmap": [
+            "tests/KernelTest.php",
             "tests/WebTestCase.php"
         ],
         "psr-4": {

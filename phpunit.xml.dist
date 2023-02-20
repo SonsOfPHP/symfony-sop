@@ -22,10 +22,12 @@
     <testsuites>
         <testsuite name="all">
             <directory>tests/</directory>
+            <file>tests/KernelTest.php</file>
         </testsuite>
 
         <testsuite name="unit">
             <directory>tests/*/Unit</directory>
+            <file>tests/KernelTest.php</file>
         </testsuite>
 
         <testsuite name="functional">
