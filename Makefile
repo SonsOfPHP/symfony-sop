@@ -101,11 +101,13 @@ test-functional: ## Run functional tests ONLY for all apps
 
 ## ---- Documentation -------------------------------------------------------------
 coverage: ## Generate Code Coverage
+	rm -rf ${COVERAGE_DIR}
+	mkdir -vp ${COVERAGE_DIR}
 	$(CONSOLE) doctrine:database:drop --env=test -vvv -n --if-exists --force
 	$(CONSOLE) doctrine:database:create --env=test -vvv -n --if-not-exists
 	$(CONSOLE) doctrine:schema:create --env=test -vvv -n
 	$(CONSOLE) doctrine:fixtures:load --env=test -vvv -n || true
-	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=coverage $(PHP) -dxdebug.mode=coverage $(PHPUNIT) --testsuite "all" --coverage-html $(COVERAGE_DIR)
+	SYMFONY_DEPRECATIONS_HELPER=$(SYMFONY_DEPRECATIONS_HELPER) XDEBUG_MODE=coverage $(PHP) -dxdebug.mode=coverage $(PHPUNIT) --testsuite "all" --coverage-html ${COVERAGE_DIR}
 
 ## ---- Tools ---------------------------------------------------------------------
 tools-install: psalm-install ## Install Tools
