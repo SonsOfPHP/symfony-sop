@@ -19,10 +19,10 @@ security:
             lazy: true
             provider: shared_user_provider
             logout:
-              path: shared_logout
+              path: logout
             form_login:
-              login_path: shared_login
-              check_path: shared_login
+              login_path: login
+              check_path: login
               enable_csrf: true
 
             # https://symfony.com/doc/current/security/impersonating_user.html

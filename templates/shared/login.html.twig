@@ -7,7 +7,7 @@
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
   {% endif %}
 
-  <form action="{{ path('shared_login') }}" method="post">
+  <form action="{{ path('login') }}" method="post">
     <div class="mb-3">
       <label for="username" class="form-label">{{ 'label.email'|trans }}</label>
       <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" required>
@@ -23,6 +23,6 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <button type="submit" class="btn btn-primary">{{ 'btn.login'|trans }}</button>
-    <a href="{{ path('shared_register') }}" class="btn btn-secondary ms-3">{{ 'btn.register'|trans }}</a>
+    <a href="{{ path('register') }}" class="btn btn-secondary ms-3">{{ 'btn.register'|trans }}</a>
   </form>
 {% endblock %}
