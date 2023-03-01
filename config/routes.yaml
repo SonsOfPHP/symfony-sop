@@ -1,5 +1,3 @@
-# Change to the correct path if you are using Shared Controllers across your
-# apps
-shared_controllers:
-    resource: ../src/Shared/Infrastructure/Symfony/Controller/
+_controllers:
+    resource: ../src/Shared/Controller/
     type: attribute
