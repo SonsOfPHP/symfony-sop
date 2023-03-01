@@ -1,4 +1,6 @@
 twig:
+    strict_variables: true
+
     form_themes:
       - 'bootstrap_5_layout.html.twig'
 
@@ -11,9 +13,9 @@ twig:
     #globals:
     #    google_analytics_enabled: false
 
-when@test:
+when@prod:
     twig:
-        strict_variables: true
+        strict_variables: false
 
 #when@prod:
 #    twig:

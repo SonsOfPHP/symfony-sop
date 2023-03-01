@@ -16,7 +16,7 @@ has a few awesome features like:
 - Includes `dependabot.yml` file
 - Multiple Buses have been preconfigured for you
 - Bootstrap CSS is preconfigured along with a few templates to get you started
-- Ready to go with user & account registration and user login
+- Ready to go with user & account registration, user login, and password reset
 - Comes with a `UniqueDto` Symfony Constraint
 
 ## Setting it up
@@ -38,17 +38,38 @@ lot of different targets to help you manage your project.
 
 ## Apps
 
-When you build an app, you will generally have a section for your users to login
-and interact with (ie "app"). You may also want to have an admin section for you
-to log in and manage the application (ie "admin"). Eventually, you may also want
-an API for others to use (ie "api").
+One of the goals of this project is to get a proof of concept out as fast as
+possible. When it comes to adding apps, it's suggested you follow one of these
+patterns: 1) A single app with a frontend (app), backend (admin), and API (api)
+or 2) Multiple apps like "facebook" and "instagram".
 
-Each one of these apps will use a common code base (ie "shared").
+You can, of course, use this however you want. These are just ideas and what
+I've found to be useful.
 
-The way this version of Symfony is laid out, allows you to separate each of
-these apps. As an example, you could set this up on Heroku and have it share the
-same database. Each Heroku App can be configure by just changed the env var
-"APP_NAME" to whichever app you want to use.
+NOTE: Both ways have pros & cons. Using this with a single app is pretty
+straight forward as your entities, migrations, and data fixtures will be in the
+Shared directory. However, having multiple apps requires more work since you
+will have entities, migrations, and data fixtures that other apps will not know
+anything about
+
+### Directory Structure Examples
+
+Single App, broken out
+```
+src/
+    Admin/
+    Api/
+    App/
+    Shared/
+```
+
+Multiple apps
+```
+src/
+    Facebook/
+    Instagram/
+    Shared/
+```
 
 ## Configuration
 
@@ -73,17 +94,104 @@ Take a look at the `composer.json` file. You will is in the "autoload" and
 NOTE: "Shared" should always remain and only the "psr-4" sections should be
 modified.
 
-## Data Fixtures
+## Doctrine Fixtures
 
-Data Fixtures are kept in the `/fixtures` directory. If you are using the
-`make:fixtures` command, it will be created in `/src/DataFixtures` and will need
-to be moved into this folder.
+Data Fixtures CAN be a pain in the ass if you aren't careful. The setup also
+depends on if you have a single app broken up (app, admin, api) or multiple
+apps. Every app has access to `Shared\DataFixtures` but they will not have
+access to fixtures stored in other apps.
+
+Loading the fixtures into a database can be tricky as well. I've found it best
+to use Groups and name the groups after the app's name. Basically you will need
+to load them in shared first and append the rest.
+
+Example:
+```
+php bin/console doctrine:fixtures:load --group shared
+php bin/console doctrine:fixtures:load --app app --group app --append
+php bin/console doctrine:fixtures:load --app admin --group admin --append
+php bin/console doctrine:fixtures:load --app api --group api --append
+```
+
+## Doctrine Migrations
+
+Migrations are kind of a bitch right now. The `migrations/shared` migrations
+will always run and the specific app migrations you want will run as well. The
+`shared` migrations should ONLY contain things that are applicable for ALL apps.
+This could be something like the `users` table.
+
+Each app has no idea about the other migration files so if you have multiple
+apps with different migrations, doctrine will bitch there are unknown migrations
+that were executed when switching between apps.
+
+### Creating a New Migration
+
+`php bin/console doctrine:migrations:diff --namespace "DoctrineMigrations\\App"`
+
+You'll need to make sure to include the namespace.
+
+## Translations
+
+* `templates/shared` includes common words and phrases used across all apps
+* `templates/{app_name}` includes specific terms for the app being used
+
+
+## Templates
+
+Templates will work a little different. Out of the box, it will work like this:
+
+1. Does the template exist in `templates/{app_name}`? If yes, load that template
+2. Does the template exist in `templates/shared`? If yes, load that template
+3. No template was found, throw error
+
+```twig
+{# templates/shared/base.html.twig #}
+<html>
+    <body>
+        {% block _body %}{% endblock %}
+    </body>
+</html>
+```
+
+```twig
+{# templates/shared/_header.html.twig #}
+<h1>{% block _page_title %}{% endblock %}</h1>
+```
+
+```twig
+{# templates/app/layout.html.twig #}
+{% extends 'base.html.twig' %}
+{# extends will use 'templates/shared/layout.html.twig' #}
+{% block _body %}
+    {# Unless you create the template `templates/app/_header.html.twig`, this
+       will use the template `templates/shared/_header.html.twig` #}
+    {{ include('_header.html.twig') }}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
+```
+
+```twig
+{# templates/app/homepage.html.twig #}
+{% extends 'layout.html.twig' %}
+{# extends will use 'templates/app/layout.html.twig' #}
+
+{% block content %}
+    Content!
+{% endblock %}
+```
 
 ## Testing
 
 This template comes with it's own "WebTestCase" that you need to extend in order
 for everything to work properly. You can see in the "ExampleTest" how to load
 different configurations to test.
+
+Running tests for all the apps can be a huge pain in the ass. If you have
+multiple apps and each app has different database schemas, you will need to load
+all those up, run migrations (or just execute SQL for everything), and load
+fixtures in for each app.
 
 ## Getting Help
 

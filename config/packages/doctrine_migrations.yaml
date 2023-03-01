@@ -1,10 +1,7 @@
 doctrine_migrations:
+    enable_profiler: '%kernel.debug%'
     migrations_paths:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
-        'DoctrineMigrations': '%kernel.project_dir%/migrations'
-
-        # If different apps use different migrations, you can uncomment this
-        # and remove the one above.
-        #'DoctrineMigrations': '%kernel.project_dir%/migrations/%kernel.name%'
-    enable_profiler: false
+        'DoctrineMigrations': '%kernel.project_dir%/migrations/shared'
+        'DoctrineMigrations\%kernel.root_namespace%': '%kernel.project_dir%/migrations/%kernel.name%'

@@ -33,17 +33,32 @@ class Kernel extends BaseKernel
 
     /**
      * Returns the App Name.
+     *
+     * Examples
+     *   - app
+     *   - app_name
+     *   - sons_of_php
      */
     public function getName(): string
     {
         return u($this->name)->snake()->toString();
     }
 
+    /**
+     * Returns the App's bundles.php file.
+     *
+     * Example: etc/app/bundles.php
+     */
     public function getAppNameBundlesPath(): string
     {
         return $this->getAppConfigDir().'/bundles.php';
     }
 
+    /**
+     * Returns the App's configuration directory.
+     *
+     * Example: etc/app
+     */
     public function getAppConfigDir(): string
     {
         return $this->getProjectDir().'/etc/'.$this->getName();
@@ -73,6 +88,8 @@ class Kernel extends BaseKernel
         $sharedBundles = require $this->getBundlesPath();
         $appNameBundles = require $this->getAppNameBundlesPath();
 
+        // We want anything in the app's bundles.php file to overwrite the
+        // shared bundles.php
         $contents = array_merge($sharedBundles, $appNameBundles);
 
         foreach ($contents as $class => $envs) {
@@ -124,6 +141,12 @@ class Kernel extends BaseKernel
                 $container->import($configDir.'/{services}_'.$this->environment.'.yaml');
             } else {
                 $container->import($configDir.'/{services}.php');
+            }
+
+            // Some apps will make use of lots of different parameters. It's easier to manage
+            // when all the parameters are in their own file
+            if (is_file($configDir.'/parameters.yaml')) {
+                $container->import($configDir.'/parameters.yaml');
             }
         }
     }

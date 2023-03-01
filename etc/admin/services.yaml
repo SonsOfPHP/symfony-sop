@@ -11,13 +11,23 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    _instanceof:
+        SonsOfPHP\Component\Cqrs\Command\CommandMessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+        SonsOfPHP\Component\Cqrs\Query\QueryMessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+        SonsOfPHP\Component\EventSourcing\Message\MessageHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     Admin\:
         resource: '../../src/Admin'
         exclude:
-            - '../../src/Admin/Infrastructure/Symfony/DependencyInjection/'
-            - '../../src/Admin/Infrastructure/Symfony/Entity/'
+            - '../../src/Admin/Entity/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
