@@ -78,15 +78,3 @@ services:
     #Symfony\Component\Uid\Command\InspectUlidCommand: ~
     #Symfony\Component\Uid\Command\GenerateUuidCommand: ~
     #Symfony\Component\Uid\Command\InspectUuidCommand: ~
-
-when@dev:
-    services:
-        # This allows all the DataFixtures to be kept outside of the rest of the code
-        # https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html
-        DataFixtures\:
-            resource: '../fixtures'
-
-when@test:
-    services:
-        DataFixtures\:
-            resource: '../fixtures'
