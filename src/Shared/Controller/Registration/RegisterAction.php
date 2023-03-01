@@ -17,7 +17,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/register', name: 'shared_register')]
+#[Route('/register', name: 'register')]
 final class RegisterAction extends AbstractController
 {
     public function __construct(
@@ -46,10 +46,10 @@ final class RegisterAction extends AbstractController
 
             $this->notifier->send((new Notification('Account Registered, please log in', ['browser']))->importance(Notification::IMPORTANCE_LOW));
 
-            return $this->redirectToRoute('shared_login');
+            return $this->redirectToRoute('login');
         }
 
-        return $this->renderForm('register.html.twig', [
+        return $this->render('register.html.twig', [
             'form' => $form,
         ]);
     }
