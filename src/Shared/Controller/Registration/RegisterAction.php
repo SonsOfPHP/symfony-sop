@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Shared\Controller\Registration;
 
-use Shared\Message\Command\RegisterUser;
 use Shared\Entity\User;
 use Shared\Form\Data\RegistrationData;
 use Shared\Form\RegisterForm;
+use Shared\Message\Command\RegisterUser;
 use SonsOfPHP\Bridge\Symfony\Cqrs\CommandMessageBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

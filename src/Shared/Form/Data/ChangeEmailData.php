@@ -6,8 +6,8 @@ namespace Shared\Form\Data;
 
 use Shared\Entity\User;
 use Shared\Validator\UniqueDto;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[UniqueDto(fields: 'email', entityClass: User::class)]
 class ChangeEmailData

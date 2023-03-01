@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Shared\Form\Data;
 
-use Shared\Entity\User;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ChangePasswordData
 {

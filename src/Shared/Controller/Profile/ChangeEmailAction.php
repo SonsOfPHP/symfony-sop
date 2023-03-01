@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Shared\Controller\Profile;
 
-use Shared\Message\Command\ChangeEmail;
-use Shared\Entity\User;
-use Shared\Form\Data\ChangeEmailData;
 use Shared\Form\ChangeEmailForm;
+use Shared\Form\Data\ChangeEmailData;
+use Shared\Message\Command\ChangeEmail;
 use SonsOfPHP\Bridge\Symfony\Cqrs\CommandMessageBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +32,7 @@ final class ChangeEmailAction extends AbstractController
             $data = $form->getData();
 
             $this->commandBus->dispatch(new ChangeEmail([
-                'id'    => $this->getUser()->getId(),
+                'id' => $this->getUser()->getId(),
                 'email' => $data->email,
             ]));
 

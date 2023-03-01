@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Shared\Controller\Profile;
 
-use Shared\Message\Command\ChangePassword;
-use Shared\Entity\User;
-use Shared\Form\Data\ChangePasswordData;
 use Shared\Form\ChangePasswordForm;
+use Shared\Form\Data\ChangePasswordData;
+use Shared\Message\Command\ChangePassword;
 use SonsOfPHP\Bridge\Symfony\Cqrs\CommandMessageBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -35,7 +34,7 @@ final class ChangePasswordAction extends AbstractController
             $data = $form->getData();
 
             $this->commandBus->dispatch(new ChangePassword([
-                'id'       => $this->getUser()->getId(),
+                'id' => $this->getUser()->getId(),
                 'password' => $this->passwordHasher->hashPassword($this->getUser(), $data->password),
             ]));
 
