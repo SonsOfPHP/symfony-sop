@@ -132,7 +132,7 @@ final class KernelTest extends TestCase
         $data = unserialize(serialize($kernel));
 
         $this->assertSame('test', $data->getEnvironment());
-        $this->assertSame(true, $data->isDebug());
+        $this->assertTrue($data->isDebug());
         $this->assertSame('sons_of_php', $data->getName());
     }
 }

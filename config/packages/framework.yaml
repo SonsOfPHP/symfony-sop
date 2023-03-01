@@ -2,11 +2,13 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    http_method_override: false
+    http_method_override: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
+        #handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        #cookie_lifetime: 604800 # 1 Week in seconds
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
@@ -19,6 +21,14 @@ framework:
 
     serializer:
         name_converter: 'serializer.name_converter.camel_case_to_snake_case'
+
+    # @see https://symfony.com/doc/current/deployment/proxies.html
+    #trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    #trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
+
+    #secrets:
+    #    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.name%/%kernel.environment%'
+    #    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.name%.%kernel.environment%.local'
 
 when@test:
     framework:

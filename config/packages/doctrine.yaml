@@ -9,17 +9,26 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+
+        #second_level_cache:
+        #    enabled: true
+
         mappings:
-            SharedDoctrine:
+            Shared:
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Shared/Infrastructure/Doctrine/Entity'
-                prefix: 'Shared\Infrastructure\Doctrine\Entity'
-                alias: SharedDoctrine
-            SharedSymfony:
+                dir: '%kernel.project_dir%/src/Shared/Entity'
+                prefix: 'Shared\Entity'
+                alias: Shared
+            '%kernel.root_namespace%\':
+                type: attribute
+                prefix: '%kernel.root_namespace%\Entity'
+                dir: '%kernel.project_dir%/src/%kernel.root_namespace%/Entity'
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Shared/Infrastructure/Symfony/Entity'
-                prefix: 'Shared\Infrastructure\Symfony\Entity'
-                alias: SharedSymfony
+
+when@dev:
+    doctrine:
+        dbal:
+            profiling_collect_backtrace: true
 
 when@test:
     doctrine:
