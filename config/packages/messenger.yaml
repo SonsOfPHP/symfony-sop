@@ -117,6 +117,13 @@ framework:
             Symfony\Component\Notifier\Message\ChatMessage: urgent
             Symfony\Component\Notifier\Message\SmsMessage: urgent
 
+            ######## Shared ####################################################
+            ## [Commands] ######################################################
+            #'Shared\Message\Command\Account\RegisterAccount': low
+            ## [Events] ########################################################
+            #'Shared\Event\Account\Registered': low
+            ####################################################################
+
             # Route your messages to the transports
             # 'App\Message\YourMessage': low
 

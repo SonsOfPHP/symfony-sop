@@ -37,8 +37,8 @@ services:
             # to you to figure out what you want
             #- '../src/Shared/DependencyInjection/'
             #- '../src/Shared/Entity/'
-            - '../src/Shared/Infrastructure/Doctrine/Entity/'
-            - '../src/Shared/Infrastructure/Symfony/DependencyInjection/'
+            - '../src/Shared/Entity/'
+            - '../src/Shared/DependencyInjection/'
 
     # Inject the different Message Buses into your services to make it
     # east to dispatch/handle commands, queries, and events
@@ -58,6 +58,20 @@ services:
         tags: [ serializer.normalizer ]
     SonsOfPHP\Bridge\Symfony\EventSourcing\MessageNormalizer:
         tags: [ serializer.normalizer ]
+    SonsOfPHP\Bridge\Symfony\EventSourcing\UuidEventIdMessageEnricherHandler: ~
+    SonsOfPHP\Bridge\Symfony\EventSourcing\HttpRequestMessageEnricherHandler:
+        arguments: ['@Symfony\Component\HttpFoundation\RequestStack']
+    SonsOfPHP\Component\EventSourcing\Message\Enricher\Provider\MessageEnricherProviderInterface:
+        class: 'SonsOfPHP\Component\EventSourcing\Message\Enricher\Provider\AllMessageEnricherProvider'
+        calls:
+            - register: ['@SonsOfPHP\Bridge\Symfony\EventSourcing\HttpRequestMessageEnricherHandler']
+            #- register: ['@Shared\Message\Enricher\BlameableEnricher']
+            - register: ['@SonsOfPHP\Bridge\Symfony\EventSourcing\UuidEventIdMessageEnricherHandler']
+
+    SonsOfPHP\Component\EventSourcing\Message\Enricher\MessageEnricherInterface:
+        class: 'SonsOfPHP\Component\EventSourcing\Message\Enricher\MessageEnricher'
+        arguments: ['@SonsOfPHP\Component\EventSourcing\Message\Enricher\Provider\MessageEnricherProviderInterface']
+
 
     # Uncomment to enable commands to generate/inspect UUIDs and ULIDs
     #Symfony\Component\Uid\Command\GenerateUlidCommand: ~

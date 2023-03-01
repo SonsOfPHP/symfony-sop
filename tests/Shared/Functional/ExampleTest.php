@@ -27,7 +27,7 @@ final class ExampleTest extends \WebTestCase
     public function testAdmin(): void
     {
         $client = static::createClient([
-            'name' => 'api',
+            'name' => 'admin',
         ]);
         $client->request('GET', '/');
         $this->assertResponseStatusCodeSame(404);

@@ -3,6 +3,7 @@ framework:
         #chatter_transports:
         #    slack: '%env(SLACK_DSN)%'
         #    telegram: '%env(TELEGRAM_DSN)%'
+        #    discord: '%env(DISCORD_DSN)%'
         #texter_transports:
         #    twilio: '%env(TWILIO_DSN)%'
         #    nexmo: '%env(NEXMO_DSN)%'
@@ -14,3 +15,13 @@ framework:
             low: ['email']
         admin_recipients:
             - { email: admin@example.com }
+
+#when@test:
+#    framework:
+#        notifier:
+#            chatter_transports:
+#                slack: 'null://null'
+#                telegram: 'null://null'
+#                discord: 'null://null'
+#            texter_transports:
+#                twilio: 'null://null'

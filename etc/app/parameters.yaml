@@ -1,0 +1,13 @@
+################################################################################
+# parameters.yaml
+#   This file is optional. It's used to make it easier to manage apps that
+#   contain a lot of different parameters. An example could be feature toggles
+################################################################################
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+  #google.analytics.enabled: false
+
+when@prod:
+  parameters:
+    #google.analytics.enabled: true

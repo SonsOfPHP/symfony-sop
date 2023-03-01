@@ -13,9 +13,17 @@
         "doctrine/orm": "^2.13",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.13",
-        "sonsofphp/cqrs-symfony": "^0.3.5",
-        "sonsofphp/event-sourcing-doctrine": "^0.3.5",
-        "sonsofphp/event-sourcing-symfony": "^0.3.5",
+        "sonsofphp/clock": "^0.3.x-dev",
+        "sonsofphp/cqrs": "^0.3.x-dev",
+        "sonsofphp/cqrs-symfony": "^0.3.x-dev",
+        "sonsofphp/event-dispatcher": "^0.3.x-dev",
+        "sonsofphp/event-sourcing": "^0.3.x-dev",
+        "sonsofphp/event-sourcing-doctrine": "^0.3.x-dev",
+        "sonsofphp/event-sourcing-symfony": "^0.3.x-dev",
+        "sonsofphp/feature-toggle": "^0.3.x-dev",
+        "sonsofphp/json": "^0.3.x-dev",
+        "sonsofphp/money": "^0.3.x-dev",
+        "sonsofphp/version": "^0.3.x-dev",
         "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/doctrine-messenger": "6.2.*",
@@ -44,8 +52,11 @@
         "symfony/web-link": "6.2.*",
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.2.*",
-        "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/cssinliner-extra": "^3.4",
+        "twig/extra-bundle": "^3.3",
+        "twig/intl-extra": "^3.3",
+        "twig/string-extra": "^3.5",
+        "twig/twig": "^3.0"
     },
     "config": {
         "allow-plugins": {
@@ -76,7 +87,6 @@
             "tests/WebTestCase.php"
         ],
         "psr-4": {
-            "DataFixtures\\": "fixtures/",
             "Admin\\Tests\\": "tests/Admin/",
             "Api\\Tests\\": "tests/Api/",
             "App\\Tests\\": "tests/App/",

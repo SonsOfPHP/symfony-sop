@@ -73,11 +73,23 @@ Take a look at the `composer.json` file. You will is in the "autoload" and
 NOTE: "Shared" should always remain and only the "psr-4" sections should be
 modified.
 
-## Data Fixtures
+## Doctrine Fixtures
 
 Data Fixtures are kept in the `/fixtures` directory. If you are using the
 `make:fixtures` command, it will be created in `/src/DataFixtures` and will need
 to be moved into this folder.
+
+## Doctrine Migrations
+
+
+## Messenger
+
+
+## Notifier
+
+
+## Translations
+
 
 ## Testing
 
