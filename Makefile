@@ -16,12 +16,14 @@ PSALM          = ${PSALM_DIR}/vendor/bin/psalm
 PSALM_PLUGIN   = ${PSALM_DIR}/vendor/bin/psalm-plugin
 CONSOLE        = bin/console
 YARN           = yarn
-SYMFONY        = symfony
 
 SYMFONY_DEPRECATIONS_HELPER='max[total]=99999&quiet[]=indirect&quiet[]=other'
 
 .DEFAULT_GOAL: help
 .PHONY: help assets
+
+# Server name
+export SERVER_NAME = app.local
 
 help:
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
@@ -47,16 +49,12 @@ db-diff: ## Generate DB Migration
 db-diff-dump: ## View database diff
 	$(CONSOLE) doctrine:schema:update --dump-sql --no-interaction -vvv
 
-start: up ## spin up docker containers and symfony server
-	$(SYMFONY) server:ca:install --renew --force
-	$(SYMFONY) server:start --daemon
-
-stop: down ## spin down docker containers and symfony server
-	$(SYMFONY) server:stop
-
 upgrade: composer-upgrade yarn-upgrade tools-upgrade ## Upgrade dependencies
 
 ## ---- Docker --------------------------------------------------------------------
+build: ## Build/Rebuild images
+	$(DOCKER_COMPOSE) build --pull --no-cache
+
 up: ## Start the docker hub in detached mode (no logs)
 	$(DOCKER_COMPOSE) up --detach --remove-orphans
 
@@ -65,6 +63,9 @@ down: ## Stop the docker hub
 
 logs: ## Show live logs
 	$(DOCKER_COMPOSE) logs --tail=0 --follow
+
+sh: ## Connect to the PHP container
+	$(DOCKER_COMPOSE) exec php sh
 
 ## ---- Composer ------------------------------------------------------------------
 composer-install: ## Install composer dependencies

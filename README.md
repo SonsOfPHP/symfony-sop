@@ -21,17 +21,19 @@ has a few awesome features like:
 
 ## Setting it up
 
+tldr: `make install up db-migrate`
+
 Just run `make install` to get started. This installs all the dependencies
 (uses `composer` and `yarn`), installs various tools (`php-cs-fixer`, `psalm`,
 etc.), and will build assets.
 
-Once all the dependencies are installed, you can run `make start` to spin up the
-Symfony server along with the docker containers.
+Once all the dependencies are installed, you can run `make up` to spin up the
+docker containers.
 
 Next, you will need to run the database migrations. This is quickly done via
 `make db-migrate`.
 
-To do all of this at once, just run `make install start db-migrate`.
+To do all of this at once, just run `make install up db-migrate`.
 
 To see a list of all the targets and descriptions, just run `make`. There are a
 lot of different targets to help you manage your project.
