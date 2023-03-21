@@ -74,7 +74,12 @@ services:
 
 
     # Uncomment to enable commands to generate/inspect UUIDs and ULIDs
-    #Symfony\Component\Uid\Command\GenerateUlidCommand: ~
-    #Symfony\Component\Uid\Command\InspectUlidCommand: ~
-    #Symfony\Component\Uid\Command\GenerateUuidCommand: ~
-    #Symfony\Component\Uid\Command\InspectUuidCommand: ~
+    Symfony\Component\Uid\Command\GenerateUlidCommand: ~
+    Symfony\Component\Uid\Command\InspectUlidCommand: ~
+    Symfony\Component\Uid\Command\GenerateUuidCommand: ~
+    Symfony\Component\Uid\Command\InspectUuidCommand: ~
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+
