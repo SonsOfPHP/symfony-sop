@@ -7,7 +7,7 @@ security:
     providers:
       shared_user_provider:
         entity:
-          class: Shared\Infrastructure\Doctrine\Entity\User
+          class: Shared\Entity\User
           property: email
 
     firewalls:
@@ -35,7 +35,8 @@ security:
         # unauthenticated users. Adjust as needed
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+        #- { path: ^/, roles: ROLE_USER }
+        - { path: ^/, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

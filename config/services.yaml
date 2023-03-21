@@ -52,11 +52,11 @@ services:
 
     # Makes sure that messages are serialized correctly
     # https://docs.sonsofphp.com
-    SonsOfPHP\Bridge\Symfony\EventSourcing\AggregateIdNormalizer:
+    SonsOfPHP\Bridge\Symfony\EventSourcing\Aggregate\AggregateIdNormalizer:
         tags: [ serializer.normalizer ]
-    SonsOfPHP\Bridge\Symfony\EventSourcing\AggregateVersionNormalizer:
+    SonsOfPHP\Bridge\Symfony\EventSourcing\Aggregate\AggregateVersionNormalizer:
         tags: [ serializer.normalizer ]
-    SonsOfPHP\Bridge\Symfony\EventSourcing\MessageNormalizer:
+    SonsOfPHP\Bridge\Symfony\EventSourcing\Message\MessageNormalizer:
         tags: [ serializer.normalizer ]
     SonsOfPHP\Bridge\Symfony\EventSourcing\UuidEventIdMessageEnricherHandler: ~
     SonsOfPHP\Bridge\Symfony\EventSourcing\HttpRequestMessageEnricherHandler:
@@ -74,7 +74,12 @@ services:
 
 
     # Uncomment to enable commands to generate/inspect UUIDs and ULIDs
-    #Symfony\Component\Uid\Command\GenerateUlidCommand: ~
-    #Symfony\Component\Uid\Command\InspectUlidCommand: ~
-    #Symfony\Component\Uid\Command\GenerateUuidCommand: ~
-    #Symfony\Component\Uid\Command\InspectUuidCommand: ~
+    Symfony\Component\Uid\Command\GenerateUlidCommand: ~
+    Symfony\Component\Uid\Command\InspectUlidCommand: ~
+    Symfony\Component\Uid\Command\GenerateUuidCommand: ~
+    Symfony\Component\Uid\Command\InspectUuidCommand: ~
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+
