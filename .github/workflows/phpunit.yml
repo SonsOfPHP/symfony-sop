@@ -45,7 +45,7 @@ jobs:
                 php-version: ['8.1', '8.2']
                 #app-name: ['app']
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
             # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
@@ -84,7 +84,7 @@ jobs:
                 env:
                     POSTGRES_PASSWORD: 'password123'
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
             # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
